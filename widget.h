@@ -28,6 +28,7 @@ private:
     Ui::Widget *ui;
     QString selectedFileName;
     QString server;
+    QUrl serverUrl;
     QFile file;
     QString returnedUrl;
     QNetworkReply *reply;

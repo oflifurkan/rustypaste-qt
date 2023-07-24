@@ -14,10 +14,10 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    manager = new QNetworkAccessManager(this);
+    //    manager = new QNetworkAccessManager(this);
     connect(ui->selectFileButton, &QPushButton::clicked, this, &Widget::on_selectFileButton_pressed );
     connect(this, &Widget::fileSelectedFunc, this, &Widget::on_selectFileButton_pressed);
-//    connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
+    //    connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
 }
 
 Widget::~Widget()
@@ -63,25 +63,25 @@ void Widget::replyFinished()
     QMessageBox result;
 
     qDebug() << "Reply received, status:" << reply->error();
-    if (reply->error() == QNetworkReply::NoError) {
-        qDebug() << "Success:" << reply->readAll();
-        returnedUrl = QString::fromUtf8(reply->readAll());
+    if (reply->error() == QNetworkReply::NoError)
+    {
+//        qDebug() << "Success:" << reply->readAll();
+        returnedUrl = QString(reply->readAll());
 
-        qDebug() << returnedUrl;
+        qDebug() << "returnedUrl= " << returnedUrl;
         result.setText("Success!\nHere is paste link:\n" + returnedUrl);
+        result.exec();
 
     } else {
         qDebug() << "Error:" << reply->errorString();
         result.setText("Error!\nThe server communication is not connected.");
+        result.exec();
     }
-
-    reply->deleteLater();
-    delete[] reply;
 }
 
 void Widget::on_sendFileButton_pressed()
 {
-    QUrl serverUrl(server);
+    serverUrl.setUrl(server);
     QNetworkRequest request(serverUrl);
 
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -91,9 +91,10 @@ void Widget::on_sendFileButton_pressed()
     file.setParent(multiPart);
     multiPart->append(filePart);
 
-
+    manager = new QNetworkAccessManager;
     reply = manager->post(request, multiPart);
     multiPart->setParent(reply);
     connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
+    qDebug() << "sendFileButton after";
 }
 
