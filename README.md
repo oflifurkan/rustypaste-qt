@@ -1,2 +1,2 @@
 # rustypaste-qt
-QT Client of Rustypaste
+QT Client for Rustypaste
