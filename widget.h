@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QFileDialog>
+#include <QNetworkReply>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -15,7 +17,20 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    void fileSelectedFunc();
+    void replyFinished();
+
+private slots:
+    void on_selectFileButton_pressed();
+    void on_sendFileButton_pressed();
+
 private:
     Ui::Widget *ui;
+    QString selectedFileName;
+    QString server;
+    QFile file;
+    QString returnedUrl;
+    QNetworkReply *reply;
+    QNetworkAccessManager *manager;
 };
 #endif // WIDGET_H
