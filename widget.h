@@ -17,7 +17,6 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    void fileSelectedFunc();
     void replyFinished();
 
 private slots:

@@ -14,10 +14,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //    manager = new QNetworkAccessManager(this);
     connect(ui->selectFileButton, &QPushButton::clicked, this, &Widget::on_selectFileButton_pressed );
-    connect(this, &Widget::fileSelectedFunc, this, &Widget::on_selectFileButton_pressed);
-    //    connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
 }
 
 Widget::~Widget()
@@ -42,11 +39,6 @@ void Widget::on_selectFileButton_pressed()
     }
 
     ui->selectedFileLine->setText(selectedFileName);
-    emit fileSelectedFunc();
-}
-
-void Widget::fileSelectedFunc()
-{
     qDebug() << "File selected" ;
 
     server = ui->serverEdit->text();
@@ -55,7 +47,6 @@ void Widget::fileSelectedFunc()
         qDebug() << "Server label is empty.";
         QMessageBox::warning(nullptr, "Empty Label", "The server label is empty.");
     }
-    //    emit prepareRequest();
 }
 
 void Widget::replyFinished()
@@ -65,7 +56,6 @@ void Widget::replyFinished()
     qDebug() << "Reply received, status:" << reply->error();
     if (reply->error() == QNetworkReply::NoError)
     {
-//        qDebug() << "Success:" << reply->readAll();
         returnedUrl = QString(reply->readAll());
 
         qDebug() << "returnedUrl= " << returnedUrl;
@@ -94,7 +84,8 @@ void Widget::on_sendFileButton_pressed()
     manager = new QNetworkAccessManager;
     reply = manager->post(request, multiPart);
     multiPart->setParent(reply);
-    connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
     qDebug() << "sendFileButton after";
+
+    connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
 }
 
