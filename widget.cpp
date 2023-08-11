@@ -67,6 +67,7 @@ void Widget::replyFinished()
         result.setText("Error!\nThe server communication is not connected.");
         result.exec();
     }
+    ui->uploadProgressBar->setValue(0);
 }
 
 void Widget::on_sendFileButton_pressed()
@@ -85,6 +86,14 @@ void Widget::on_sendFileButton_pressed()
     reply = manager->post(request, multiPart);
     multiPart->setParent(reply);
     qDebug() << "sendFileButton after";
+
+    ui->uploadProgressBar->setRange(0, file.size());
+
+    connect(reply, &QNetworkReply::uploadProgress, this, [=](qint64 bytesSent, qint64 bytesTotal){
+        if (bytesTotal > 0) {
+            ui->uploadProgressBar->setValue(bytesSent);
+        }
+    });
 
     connect(manager, &QNetworkAccessManager::finished, this, &Widget::replyFinished);
 }

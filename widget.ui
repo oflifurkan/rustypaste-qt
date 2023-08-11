@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>250</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>29</x>
      <y>29</y>
      <width>331</width>
-     <height>61</height>
+     <height>62</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -48,7 +48,7 @@
      <x>30</x>
      <y>100</y>
      <width>331</width>
-     <height>80</height>
+     <height>131</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -66,13 +66,20 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QProgressBar" name="uploadProgressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QPushButton" name="sendFileButton">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>190</y>
+     <y>250</y>
      <width>87</width>
      <height>26</height>
     </rect>
